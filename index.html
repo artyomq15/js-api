@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button onclick="loadPhones()">Загрузить phones.json!</button>
+
+<script>
+    function loadPhones() {
+        var xhr = new XMLHttpRequest();
+
+        xhr.open('GET', 'phones.json', false);
+        xhr.send();
+
+        if (xhr.status != 200) {
+            // обработать ошибку
+            alert('Ошибка ' + xhr.status + ': ' + xhr.statusText);
+        } else {
+            // вывести результат
+            alert(xhr.responseText);
+        }
+    }
+</script>
+</body>
+</html>
