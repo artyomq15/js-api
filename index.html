@@ -5,23 +5,30 @@
     <title>Title</title>
 </head>
 <body>
-<button onclick="loadPhones()">Загрузить phones.json!</button>
+<button onclick="loadPhones()">Загрузить json</button>
 
 <script>
+    'use strict';
     function loadPhones() {
-        var xhr = new XMLHttpRequest();
+        return new Promise (function(resolve,reject){
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'phones.json', true);
+            console.log("hi");
+            xhr.onload = function() {
+                if (xhr.status == 200) {
+                    resolve(alert(xhr.responseText));
+                } else {
+                    reject(alert('Ошибка ' + xhr.status + ': ' + xhr.statusText));
 
-        xhr.open('GET', 'phones.json', false);
-        xhr.send();
+                }
+            };
 
-        if (xhr.status != 200) {
-            // обработать ошибку
-            alert('Ошибка ' + xhr.status + ': ' + xhr.statusText);
-        } else {
-            // вывести результат
-            alert(xhr.responseText);
-        }
+
+            xhr.send();
+
+        });
     }
+
 </script>
 </body>
 </html>
