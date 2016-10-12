@@ -11,9 +11,18 @@
     'use strict';
     function loadPhones() {
         return new Promise (function(resolve,reject){
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'phones.json', true);
+            var XHR = ("onload" in new XMLHttpRequest()) ? XMLHttpRequest : XDomainRequest;
+
+            var xhr = new XHR();
+            <!--var xhr = new XMLHttpRequest();-->
+            xhr.open('GET', 'https://api.vk.com/method/users.get?user_ids=210700286&fields=bdate&v=5.57', true);
             console.log("hi");
+            xhr.setRequestHeader('Access-Control-Allow-Origin', 'Origin' );
+            xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE' );
+            xhr.setRequestHeader('Access-Control-Allow-Headers', 'Content-Type' );
+            xhr.onloadstart = function(){
+                console.log("start");
+            };
             xhr.onload = function() {
                 if (xhr.status == 200) {
                     resolve(alert(xhr.responseText));
@@ -25,6 +34,10 @@
 
 
             xhr.send();
+            xhr.onerror = function(){
+                console.log("error");
+            };
+
 
         });
     }
