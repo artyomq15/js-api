@@ -3,44 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="scripts/handlebars.runtime-v3.0.0.js"></script>
+    <script type="text/javascript" src="scripts/handlebars-v3.0.0.js"></script>
 </head>
 <body>
-<button onclick="loadPhones()">Загрузить json</button>
+<div class="container" id="loadingDiv">
 
+    <div class="updates">
+    </div>
+    <script id="template" type="text/x-handlebars-template">
+        <div class="row header">
+            <h1>{{response.count}}</h1>
+        </div>
+        {{#each response.items}}
+        <div class="well row">
+            <div class="row">
+                <p><strong>name</strong>{{first_name}}</p><br>
+                <p><strong>viewers</strong>{{first_name}}</p><br>
+                <p><strong>language</strong>{{last_name}}</p><br>
+            </div>
+        </div>
+        {{/each}}
+    </script>
+
+</div>
 <script>
     'use strict';
-    function loadPhones() {
-        return new Promise (function(resolve,reject){
-            var XHR = ("onload" in new XMLHttpRequest()) ? XMLHttpRequest : XDomainRequest;
+   // https://oauth.vk.com/blank.html#access_token=78b76241de6f715cd504d6db0ff67e0f0e091007142eec6ec04238e56327063e814c5b2f5778bd07783ed&expires_in=86400&user_id=81238799
 
-            var xhr = new XHR();
-            <!--var xhr = new XMLHttpRequest();-->
-            xhr.open('GET', 'https://api.vk.com/method/users.get?user_ids=210700286&fields=bdate&v=5.57', true);
-            console.log("hi");
-            xhr.setRequestHeader('Access-Control-Allow-Origin', 'Origin' );
-            xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE' );
-            xhr.setRequestHeader('Access-Control-Allow-Headers', 'Content-Type' );
-            xhr.onloadstart = function(){
-                console.log("start");
-            };
-            xhr.onload = function() {
-                if (xhr.status == 200) {
-                    resolve(alert(xhr.responseText));
-                } else {
-                    reject(alert('Ошибка ' + xhr.status + ': ' + xhr.statusText));
-
-                }
-            };
-
-
-            xhr.send();
-            xhr.onerror = function(){
+        var token = '78b76241de6f715cd504d6db0ff67e0f0e091007142eec6ec04238e56327063e814c5b2f5778bd07783ed'
+     //   'https://api.vk.com/method/users.search?from_list = friends&user_id=81238799&name_case=Nom&offset=10&count_10&access_token=' + token + '&v=5.59'
+    $('#loadingDiv').show();
+    let getInfo = () => {
+        $.ajax({
+            type: 'GET',
+            url:'https:api.vk.com/method/users.search?from_list = friends&user_id=81238799&name_case=Nom&offset=10&count=3&access_token=' + token + '&v=5.59',
+            headers: {
+                'client-id': token
+            },
+            dataType: 'JSONP',
+            success:function(channel) {
+                console.log(channel);
+                var template = Handlebars.compile( $('#template').html()  );
+                $('.updates').empty().append( template(channel)  );
+            },
+            error:function() {
                 console.log("error");
-            };
-
-
+            }
         });
     }
+
+    $(document).ready(function () {
+        getInfo();
+        setInterval(getInfo, 10000);
+    })
 
 </script>
 </body>
