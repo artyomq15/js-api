@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="main.css" media="screen" />
     <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="scripts/handlebars.runtime-v3.0.0.js"></script>
     <script type="text/javascript" src="scripts/handlebars-v3.0.0.js"></script>
@@ -14,15 +15,19 @@
     </div>
     <script id="template" type="text/x-handlebars-template">
         <div class="row header">
-            <h1>{{response.count}}</h1>
+            <h1>Найдено {{response.total_count}} записей</h1>
         </div>
         {{#each response.items}}
-        <div class="well row">
-            <div class="row">
-                <p><strong>name</strong>{{first_name}}</p><br>
-                <p><strong>viewers</strong>{{first_name}}</p><br>
-                <p><strong>language</strong>{{last_name}}</p><br>
+        <div class="content">
+            <span class="like">{{likes.count}} peeps LiKES this</span>
+                <p>{{text}}</p>
+            {{#each attachments}}
+            <img class="photo" src="{{{photo.photo_604}}}">
+           <div class="video"></div>
+            <img class="photo" src="{{{video.photo_640}}}">
+            <p class="video_title">{{video.title}}</p>
             </div>
+            {{/each}}
         </div>
         {{/each}}
     </script>
@@ -38,7 +43,7 @@
     let getInfo = () => {
         $.ajax({
             type: 'GET',
-            url:'https:api.vk.com/method/users.search?from_list = friends&user_id=81238799&name_case=Nom&offset=10&count=3&access_token=' + token + '&v=5.59',
+            url:'https:api.vk.com/method/newsfeed.search?&q=Football&extended=0&start_time=1477227600&v=5.59',
             headers: {
                 'client-id': token
             },
