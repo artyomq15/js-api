@@ -1,0 +1,29 @@
+body{
+    font-family: Verdana;
+    background-color: whitesmoke;
+}
+.content{
+    height: 270px;
+    width: 24%;
+    float: left;
+    background-color: white;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.3);
+}
+.row{
+    margin:0;
+}
+.container-fluid{
+   padding: 20px;
+}
+.namePost{
+    color: black;
+    font-weight: bold;
+}
+.userName{
+    font-weight: bold;
+    color: grey;
+}
+.userName:hover{
+    color: grey;
+    text-underline: none;
+}
