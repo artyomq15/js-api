@@ -19,5 +19,5 @@ let getJSON = () => {
 
 $(document).ready(function () {
     getJSON();
-    setInterval(getInfo, 10000);
+    setInterval(getJSON, 10000);
 })
